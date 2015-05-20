@@ -19,7 +19,7 @@ public class Box {
 
 	public void draw(PGraphics g) {
 		g.stroke(127,255,255,255);
-		g.fill(0,0,0,0);
+		g.fill(0, 0, 0, 0);
 		g.rect(this.position.x, this.position.y, widthBox, heightBox);
 	}
 

@@ -11,6 +11,7 @@ public class Window extends PApplet {
 	
 	private ArrayList<Noise> noises;
 	public ArrayList<Box> walls;
+	public ArrayList<Trap> traps;
 	private boolean debug;
 
 	public void setup() {
@@ -19,7 +20,10 @@ public class Window extends PApplet {
 		graphics = this.createGraphics(this.width, this.height);
 		noises = new ArrayList<Noise>();
 		walls = new ArrayList<Box>();
+		traps = new ArrayList<Trap>();
 		debug = true;
+		Trap t = new Trap(new PVector(400, 100), 200, 300);
+		traps.add(t);
 		Box b = new Box(new PVector(0, 0), 50, this.height);
 		walls.add(b);
 	}
@@ -31,12 +35,6 @@ public class Window extends PApplet {
 		graphics.ellipseMode(this.CENTER);
 		graphics.noStroke();
 		graphics.background(0, 0, 0, 6);
-		// render Walls
-		if (debug) {
-			for (Box b : walls) {
-				b.draw(graphics);
-			}
-		}
 		// render noises
 		Noise[] iterator = new Noise[noises.size()];
 		for (Noise n : noises.toArray(iterator)) {
@@ -46,7 +44,15 @@ public class Window extends PApplet {
 				noises.remove(n);
 			}
 		}
-
+		// render Walls
+				if (debug) {
+					for (Box b : walls) {
+						b.draw(graphics);
+					}
+					for (Trap t : traps){
+						t.draw(graphics);
+					}
+				}
 		graphics.endDraw();
 		this.image(graphics, 0, 0);
 	}
@@ -61,5 +67,4 @@ public class Window extends PApplet {
 		Noise n = new Noise(new PVector(mouseX, mouseY), (int) random(15, 60), this);
 		noises.add(n);
 	}
-
 }

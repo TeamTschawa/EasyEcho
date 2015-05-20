@@ -20,6 +20,14 @@ public class Ray {
 		for (Box b : noise.window.walls) {
 			b.collideWithRay(this);
 		}
+		for (Trap t : noise.window.traps){
+			if(t.contains(PVector.add(noise.position, this.position))){
+				g.fill(t.color,noise.transparency);
+				break;
+			} else {
+				g.fill(0,0,255);
+			}
+		}
 		position.add(velocity);
 		g.pushMatrix();
 		g.translate(position.x, position.y);
