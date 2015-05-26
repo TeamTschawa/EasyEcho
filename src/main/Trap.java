@@ -15,7 +15,7 @@ public class Trap extends Environment {
 	public void draw(PGraphics g) {
 		g.stroke(0, 255, 255, 255);
 		g.fill(0, 0, 0, 0);
-		g.rect(this.position.x, this.position.y, widthBox, heightBox);
+		g.rect(this.position.x, this.position.y, width.x, height.y);
 	}
 
 	public void action(){

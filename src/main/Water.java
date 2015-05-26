@@ -16,14 +16,13 @@ public class Water extends Environment{
 	public void draw(PGraphics g) {
 		g.stroke(color, 255);
 		g.fill(0, 0, 0, 0);
-		g.rect(this.position.x, this.position.y, widthBox, heightBox);
+		g.rect(this.position.x, this.position.y, width.x, height.y);
 		
 	}
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
-		
+				
 	}
 
 }

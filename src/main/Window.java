@@ -22,11 +22,15 @@ public class Window extends PApplet {
 		walls = new ArrayList<Box>();
 		environments = new ArrayList<Environment>();
 		debug = true;
+		
 		Trap t = new Trap(new PVector(400, 100), 200, 300);
 		environments.add(t);
 		
 		Water w = new Water(new PVector(200, 0), 200, 100);
 		environments.add(w);
+		
+		Trigger tr = new Trigger(new PVector(200, 400), 200, 100);
+		environments.add(tr);
 		
 		Box b = new Box(new PVector(0, 0), 50, this.height);
 		walls.add(b);
@@ -61,7 +65,7 @@ public class Window extends PApplet {
 	}
 	
 	public void mouseMoved(){
-		println(graphics.get(mouseX, mouseY));
+//		println(graphics.get(mouseX, mouseY));
 	}
 
 	public void keyReleased() {
