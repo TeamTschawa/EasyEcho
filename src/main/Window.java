@@ -32,7 +32,7 @@ public class Window extends PApplet {
 		Trigger tr = new Trigger(new PVector(100, 300), 200, 100);
 		environments.add(tr);
 		
-		Box b = new Box(new PVector(0, 0), 50, this.height);
+		Box b = new Box(new PVector(400, 0), 50, this.height, -(float)(Math.PI / 8.));
 		walls.add(b);
 	}
 

@@ -30,77 +30,68 @@ public class Box {
 	public void draw(PGraphics g) {
 		g.stroke(127,255,255,255);
 		g.fill(0, 0, 0, 0);
-		g.rect(this.position.x, this.position.y, width.x, height.y);
+		g.pushMatrix();
+		g.translate(center.x, center.y);
+		g.rotate(angle);
+		g.rect(-width.x / 2, -height.y / 2, width.x, height.y);	
+		g.popMatrix();
 	}
 
 	public void collideWithRay(Ray r) {
 		PVector realRayPos = PVector.add(r.position, r.noise.position);
 		if (this.contains(realRayPos)) {
-			
-			PVector centerA = PVector.sub(position, center);
-			centerA.rotate(angle);
-			PVector rotatedWidth = width.get();
-			rotatedWidth.rotate(angle);
 			PVector rotatedHeight = height.get();
+			PVector rotatedWidth = width.get();
 			rotatedHeight.rotate(angle);
+			rotatedWidth.rotate(angle);
+			PVector centerA = PVector.sub(position, center);
+			PVector centerB = PVector.sub(PVector.add(position, width), center);
+			PVector centerC = PVector.sub(PVector.add(PVector.add(position, height), width), center);
+			PVector centerD = PVector.sub(PVector.add(position, height), center);
+			centerA.rotate(angle);
+			centerB.rotate(angle);
+			centerC.rotate(angle);
+			centerD.rotate(angle);
 			
-			PVector A = PVector.add(centerA, center);
-			PVector B = PVector.add(A, rotatedWidth);
-			PVector C = PVector.add(A, rotatedWidth);
-			C.add(rotatedHeight);
-			PVector D = PVector.add(A, rotatedHeight);
-
-			
-			PVector centerB = PVector.sub(B, center);
-			PVector centerC = PVector.sub(C, center);
-			PVector centerD = PVector.sub(D, center);
-
-			// println(centerA, centerB, centerC, centerD);
-
-			if (triangleContainsPoint(realRayPos, this.center, centerA, centerB)) {
-								
-				if (r.velocity.y >= 0) {
-					r.velocity.y = r.velocity.y * -1.0f;
-				}
-			} else if (triangleContainsPoint(realRayPos, this.center, centerB, centerC)) {
-				if (r.velocity.x <= 0) {
-					r.velocity.x = r.velocity.x * -1.0f;
-				}
-			} else if (triangleContainsPoint(realRayPos, this.center, centerC, centerD)) {
-				if (r.velocity.y <= 0) {
-					r.velocity.y = r.velocity.y * -1.0f;
-				}
-			} else if (triangleContainsPoint(realRayPos, this.center, centerD, centerA)) {
-				if (r.velocity.x >= 0) {
-					r.velocity.x = r.velocity.x * -1.0f;
-				}
+			if (triangleContainsPoint(realRayPos, center, centerA, centerB)) 
+			{
+				rotatedWidth.rotate((float) Math.PI);
+				reflectRay(r, rotatedWidth);
+			} 
+			else if (triangleContainsPoint(realRayPos, center, centerB, centerC))
+			{
+				rotatedHeight.rotate((float) Math.PI);
+				reflectRay(r, rotatedHeight);
+			} 
+			else if (triangleContainsPoint(realRayPos, center, centerC, centerD))
+			{
+				reflectRay(r, rotatedWidth);
+			}
+			else if (triangleContainsPoint(realRayPos, center, centerD, centerA))
+			{
+				reflectRay(r, rotatedHeight);
 			}
 		}
 	}
 	
-	public void reflectRay(Ray r, PVector a, PVector b){
-		PVector lot = new PVector(100, 0);
-		lot.rotate(PVector.angleBetween(a, b) / 2 + a.heading());
-		
+	public void reflectRay(Ray r, PVector a){
+		PVector lot = a.get();
+		lot.rotate((float)Math.PI);
+		r.velocity.rotate(PVector.angleBetween(r.velocity, a) * 2);
 	}
 
-	public boolean triangleContainsPoint(PVector p, PVector base, PVector j, PVector g) {
-		float r;
-		float s;
-
-		s = (-j.x * base.y + j.x * p.y + j.y * base.x - j.y * p.x) / (j.x * g.y - j.y * g.x);
-		r = (-s * g.x - base.x + p.x) / j.x;
-		float sum = s + r;
-		return (0 <= sum && sum <= 1 && s >= 0 && r >= 0);
+	public boolean triangleContainsPoint(PVector p, PVector base, PVector w, PVector h) {
+		float t = -(base.x * w.y - base.y * w.x + w.x * p.y - w.y * p.x) / (h.x * w.y - h.y * w.x);
+		float s = -(h.x * t + base.x - p.x) / w.x;
+		float sum = t + s;
+		return (sum >= 0 && sum <= 1 && t >= 0 && s >= 0);
 	}
 	
-	public boolean parallelogrammContainsPoint(PVector p, PVector base, PVector width, PVector height){
-		float t = -(base.x * width.y - base.y * width.x + width.x * p.y - width.y * p.x) / (height.x * width.y - height.y * width.x);
-		float s = -(height.x * t + base.x - p.x) / width.x;
+	public boolean parallelogrammContainsPoint(PVector p, PVector base, PVector w, PVector h){
+		float t = -(base.x * w.y - base.y * w.x + w.x * p.y - w.y * p.x) / (h.x * w.y - h.y * w.x);
+		float s = -(h.x * t + base.x - p.x) / w.x;
 		return (t >= 0 && t <= 1 && s >= 0 && s <= 1);
 	}
-	
-	
 
 	public boolean contains(PVector vec) {
 		PVector centerA = PVector.sub(position, center);
