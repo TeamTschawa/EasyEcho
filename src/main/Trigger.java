@@ -12,6 +12,7 @@ public class Trigger extends Environment{
 	public Trigger(PVector pos, int _width, int _height) {
 		super(pos, _width, _height);
 		color = new Color(255, 255, 0).getRGB();
+		angle = (float)(Math.PI / 4);
 	}
 
 	@Override

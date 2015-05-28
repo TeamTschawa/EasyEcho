@@ -21,8 +21,8 @@ public class Box {
 	
 	public Box(PVector pos, int _width, int _height, float _angle){
 		this.position = pos;
-		this.width = new PVector(_width,0);
-		this.height = new PVector(0,_height);
+		this.width = new PVector(_width, 0);
+		this.height = new PVector(0, _height);
 		this.center = new PVector(position.x + width.x / 2, position.y + height.y / 2);
 		this.angle = _angle;
 	}
@@ -94,14 +94,10 @@ public class Box {
 		return (0 <= sum && sum <= 1 && s >= 0 && r >= 0);
 	}
 	
-	public boolean parallelogrammContainsPoint(PVector p, PVector base, PVector j, PVector g){
-		float r;
-		float s;
-
-		s = (-j.x * base.y + j.x * p.y + j.y * base.x - j.y * p.x) / (j.x * g.y - j.y * g.x);
-		r = (-s * g.x - base.x + p.x) / j.x;
-		float sum = s + r;
-		return (0 <= sum && sum <= 2 && s >= 0 && r >= 0);
+	public boolean parallelogrammContainsPoint(PVector p, PVector base, PVector width, PVector height){
+		float t = -(base.x * width.y - base.y * width.x + width.x * p.y - width.y * p.x) / (height.x * width.y - height.y * width.x);
+		float s = -(height.x * t + base.x - p.x) / width.x;
+		return (t >= 0 && t <= 1 && s >= 0 && s <= 1);
 	}
 	
 	

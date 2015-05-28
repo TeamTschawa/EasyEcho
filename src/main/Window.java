@@ -15,7 +15,7 @@ public class Window extends PApplet {
 	private boolean debug;
 
 	public void setup() {
-		size(500, 500);
+		size(700, 800);
 
 		graphics = this.createGraphics(this.width, this.height);
 		noises = new ArrayList<Noise>();
@@ -29,7 +29,7 @@ public class Window extends PApplet {
 		Water w = new Water(new PVector(200, 0), 200, 100);
 		environments.add(w);
 		
-		Trigger tr = new Trigger(new PVector(200, 400), 200, 100);
+		Trigger tr = new Trigger(new PVector(100, 300), 200, 100);
 		environments.add(tr);
 		
 		Box b = new Box(new PVector(0, 0), 50, this.height);
