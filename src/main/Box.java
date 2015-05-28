@@ -76,8 +76,8 @@ public class Box {
 	
 	public void reflectRay(Ray r, PVector a){
 		PVector lot = a.get();
-		lot.rotate((float)Math.PI);
-		r.velocity.rotate(PVector.angleBetween(r.velocity, a) * 2);
+		lot.rotate((float)(Math.PI / 2f));
+		r.velocity.rotate(PVector.angleBetween(r.velocity, a) * 2f);
 	}
 
 	public boolean triangleContainsPoint(PVector p, PVector base, PVector w, PVector h) {
